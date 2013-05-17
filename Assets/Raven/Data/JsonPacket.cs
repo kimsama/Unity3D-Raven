@@ -1,4 +1,5 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
@@ -122,6 +123,23 @@ namespace SharpRaven.Data {
                 StackTrace = null;
             }
         }
+		
+		public JsonPacket(string project, string log, string stack, LogType logType)
+		{
+			Initialize();
+			Message = log;
+			
+            Project = project;
+            ServerName = System.Environment.MachineName;
+            Level = ErrorLevel.error;
+			
+			Exception = new SentryException(log, stack, logType);
+			Exception.Module = log;
+			Exception.Type = logType.ToString();
+			Exception.Value = stack;
+			
+			StackTrace = null; 
+		}
 
         private void Initialize() {
             // Get assemblies.

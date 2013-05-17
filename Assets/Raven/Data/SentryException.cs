@@ -1,4 +1,5 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
 using Newtonsoft.Json;
 
 namespace SharpRaven.Data {
@@ -24,5 +25,12 @@ namespace SharpRaven.Data {
             this.Type = e.Message;
             this.Value = e.Message;
         }
+		
+		public SentryException(string log, string stack, LogType logType)
+		{
+            this.Module = log;
+            this.Type = logType.ToString();
+            this.Value = stack;			
+		}
     }
 }

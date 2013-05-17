@@ -1,4 +1,5 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
 using SharpRaven.Data;
 using System.Net;
 using System.IO;
@@ -74,6 +75,18 @@ namespace SharpRaven {
 
             return 0;
         }
+		
+		public int CaptureUntiyLog(string log, string stack, LogType logType, Dictionary<string, string> tags = null, object extra = null)
+		{
+            JsonPacket packet = new JsonPacket(CurrentDSN.ProjectID, log, stack, logType);
+            packet.Level = ErrorLevel.error;
+            packet.Tags = tags;
+            packet.Extra = extra;
+
+            Send(packet, CurrentDSN);
+			
+			return 0;
+		}
 
         public int CaptureMessage(string message)
         {
@@ -90,7 +103,7 @@ namespace SharpRaven {
             return CaptureMessage(message, level, tags, null);
         }
 
-        public int CaptureMessage(string message, ErrorLevel level = ErrorLevel.info, Dictionary<string, string> tags = null, object extra = null)
+        public int CaptureMessage(string message, ErrorLevel level /*= ErrorLevel.info*/, Dictionary<string, string> tags /*= null*/, object extra /*= null*/)
         {
             JsonPacket packet = new JsonPacket(CurrentDSN.ProjectID);
             packet.Message = message;
