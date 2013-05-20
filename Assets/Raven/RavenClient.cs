@@ -128,8 +128,8 @@ namespace SharpRaven {
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
                 request.UserAgent = "RavenSharp/1.0";
 
-                Console.WriteLine("Header: " + PacketBuilder.CreateAuthenticationHeader(dsn));
-                Console.WriteLine("Packet: " + packet.Serialize());
+                Debug.Log("Header: " + PacketBuilder.CreateAuthenticationHeader(dsn));
+                Debug.Log("Packet: " + packet.Serialize());
 
                 // Write the messagebody.
                 using (Stream s = request.GetRequestStream()) {
@@ -156,10 +156,12 @@ namespace SharpRaven {
                     wr.Close();
                 }
             } catch (WebException e) {
+				/*
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("[ERROR] ");
                 Console.ForegroundColor = ConsoleColor.Gray;
-                Console.WriteLine(e.Message);
+                */
+                Debug.Log("[ERROR] " + e.Message);
 
                 string messageBody = String.Empty;
                 if (e.Response != null)
