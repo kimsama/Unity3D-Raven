@@ -5,7 +5,7 @@ using SharpRaven;
 
 public class ErrorReporter : MonoBehaviour {
 	
-	const string dsnUrl = "http://ef96c1bff6194467bfd566bef1506d42:012cd70cf2f7447a973ea018219a6850@ser4kakao.gameus.co.kr:9000/2";	
+	const string dsnUrl = "add_your_sentry_dsn_url_here";
     static SharpRaven.RavenClient ravenClient;
 	
 	void Awake()
