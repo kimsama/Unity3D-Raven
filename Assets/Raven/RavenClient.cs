@@ -9,6 +9,19 @@ using SharpRaven.Logging;
 
 namespace SharpRaven {
     public class RavenClient {
+		
+		/// 
+		/// To support WebClient on Android and iOS.
+		/// 
+		/// See http://www.vovchik.org/blog/13001 for more details
+		/// 
+		public class HttpRequestCreator : IWebRequestCreate 
+		{
+			public WebRequest Create(Uri uri)
+			{
+				return new HttpWebRequest(uri);	
+			}
+		}		
 
         /// <summary>
         /// The DSN currently being used to log exceptions.
@@ -33,12 +46,18 @@ namespace SharpRaven {
         public string Logger { get; set; }
 
         public RavenClient(string dsn) {
+			
+			WebRequest.RegisterPrefix("http", new HttpRequestCreator());
+			
             CurrentDSN = new DSN(dsn);
             Compression = true;
             Logger = "root";
         }
 
         public RavenClient(DSN dsn) {
+			
+			WebRequest.RegisterPrefix("http", new HttpRequestCreator());
+			
             CurrentDSN = dsn;
             Compression = true;
             Logger = "root";
@@ -170,7 +189,7 @@ namespace SharpRaven {
                     {
                         messageBody = sw.ReadToEnd();
                     }
-                    Console.WriteLine("[MESSAGE BODY] " + messageBody);
+                    Debug.Log("[MESSAGE BODY] " + messageBody);
                 }
                 
                 return false;
